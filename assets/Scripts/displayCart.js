@@ -9,7 +9,7 @@ const table = document.createElement("table");
 
 // Create the table headers
 const headerRow = document.createElement("tr");
-const headers = ["ID", "Name", "Price"];
+const headers = ["ID", "Namn", "Pris"];
 headers.forEach((headerText) => {
   const header = document.createElement("th");
   header.textContent = headerText;
