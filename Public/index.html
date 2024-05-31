@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YOUKEA</title>
+    <link rel="stylesheet" href="../Public/assets/styles/layout.css" />
+    <link rel="stylesheet" href="../Public/assets/styles/card.css" />
+    <script
+      src="https://kit.fontawesome.com/4b91bc0ab7.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="nav-container">
+          <div class="nav-logo">YOUKEA</div>
+          <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+          <div class="btn-group">
+            <button class="btn-cart" id="cartBtn">
+              <i class="fa-solid fa-cart-shopping"></i>
+            </button>
+            <button
+              class="nav-toggle"
+              id="navToggle"
+              aria-label="Toggle navigation menu"
+            >
+              <i class="fa-solid fa-bars"></i>
+              <!-- <span>Meny</span> -->
+            </button>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main id="Main">
+      <h2 class="mainHeading marginLeft">Produkter</h2>
+      <div class="divider"></div>
+      <div class="cardContainer">
+        <div class="cards" id="productCards">
+          <!-- Product cards will be populated here -->
+        </div>
+      </div>
+    </main>
+    <footer>
+      <p>Copyright &copy; 2024 Anojan</p>
+    </footer>
+    <script src="../Public/assets/Scripts/toggleNav.js"></script>
+    <script src="../Public/assets/Scripts/moveToCart.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-firestore-compat.js"></script>
+    <!-- Include Firebase SDK -->
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyCR8GsxK93vncpLTWqQhplTUG6fqdNZkjs",
+        authDomain: "furniturepage-b5a8d.firebaseapp.com",
+        databaseURL:
+          "https://furniturepage-b5a8d-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "furniturepage-b5a8d",
+        storageBucket: "furniturepage-b5a8d.appspot.com",
+        messagingSenderId: "83915572387",
+        appId: "1:83915572387:web:6dcb342140f022d8342b16",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();
+
+      async function fetchFurnitureData() {
+        const furnitureCollection = await db.collection("furniture").get();
+        return furnitureCollection.docs.map((doc) => doc.data());
+      }
+
+      function createCard(furniture) {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        const anchor = document.createElement("a");
+        anchor.href = `productPage.html?id=${furniture.id}&name=${furniture.name}`;
+
+        const picture = document.createElement("picture");
+        const img = document.createElement("img");
+        img.src = furniture.image_small;
+        picture.appendChild(img);
+
+        const article = document.createElement("article");
+        article.className = "cardText";
+
+        const h2 = document.createElement("h2");
+        h2.className = "cardHeading";
+        h2.textContent = furniture.name;
+
+        const cardDetails = document.createElement("div");
+        cardDetails.className = "cardDetails";
+
+        const description = document.createElement("p");
+        description.className = "cardDescription";
+        description.textContent = furniture.description_short;
+
+        const price = document.createElement("h3");
+        price.className = "cardPrice price";
+        price.textContent = `${furniture.price}:-`;
+
+        cardDetails.appendChild(description);
+        cardDetails.appendChild(price);
+
+        article.appendChild(h2);
+        article.appendChild(cardDetails);
+
+        anchor.appendChild(picture);
+        anchor.appendChild(article);
+
+        card.appendChild(anchor);
+
+        return card;
+      }
+
+      async function populateFurnitureCards() {
+        const furnitureData = await fetchFurnitureData();
+        const cardsContainer = document.getElementById("productCards");
+
+        furnitureData.forEach((furniture) => {
+          const card = createCard(furniture);
+          cardsContainer.appendChild(card);
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", populateFurnitureCards);
+    </script>
+  </body>
+</html>

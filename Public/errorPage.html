@@ -1,0 +1,50 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="sandboxstyles.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="error.css" />
+    <script
+      src="https://kit.fontawesome.com/4b91bc0ab7.js"
+      crossorigin="anonymous"
+    ></script>
+    <title>YOUKEA</title>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="nav-container">
+          <div class="nav-logo">Logo</div>
+          <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="cartPage.html">Cart</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+          <div class="btn-group">
+            <button class="btn-cart" id="cartBtn">
+              <i class="fa-solid fa-cart-shopping"></i>
+            </button>
+            <button
+              class="nav-toggle"
+              id="navToggle"
+              aria-label="Toggle navigation menu"
+            >
+              <i class="fa-solid fa-bars"></i>
+              <!-- <span>Meny</span> -->
+            </button>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main id="Main">
+      <div class="errorContainer">
+        <h1 class="errorHeading">Warning: 404</h1>
+        <h2 class="errorSubHeading">Sidan finns inte</h2>
+      </div>
+    </main>
+    <script src="Scripts\toggleNav.js"></script>
+    <script src="Scripts\moveToCart.js"></script>
+  </body>
+</html>

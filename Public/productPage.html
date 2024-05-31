@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../Public/assets/styles/layout.css" />
+    <link rel="stylesheet" href="../Public/assets/styles/product.css" />
+    <title>YOUKEA</title>
+    <script
+      src="https://kit.fontawesome.com/4b91bc0ab7.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="nav-container">
+          <div class="nav-logo">YOUKEA</div>
+          <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+          <div class="btn-group">
+            <button class="btn-cart" id="cartBtn">
+              <i class="fa-solid fa-cart-shopping"></i>
+            </button>
+            <button
+              class="nav-toggle"
+              id="navToggle"
+              aria-label="Toggle navigation menu"
+            >
+              <i class="fa-solid fa-bars"></i>
+              <!-- <span>Meny</span> -->
+            </button>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main id="Main">
+      <div class="gridContainer">
+        <div class="product">
+          <figure class="productImgFigure">
+            <picture>
+              <!-- Source for smaller screens -->
+              <source
+                id="productImageSmall"
+                media="(max-width: 799px)"
+                srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBA=="
+              />
+              <!-- Source for larger screens -->
+              <source
+                id="productImageLarge"
+                media="(min-width: 800px)"
+                srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBA=="
+              />
+              <!-- Source for extra large screens -->
+              <source
+                id="productImageOrginal"
+                media="(min-width: 1025px)"
+                srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBA=="
+              />
+              <!-- Fallback image for browsers that do not support the <picture> element -->
+              <img
+                id="productImageDefault"
+                alt="Image of an armchair"
+                src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBA=="
+              />
+            </picture>
+          </figure>
+          <section class="productText">
+            <h2 class="productHeading" id="productHeading">Loading...</h2>
+            <p id="productDescriptionLong">Loading description...</p>
+            <p class="productPrice price" id="productPrice">Loading price...</p>
+            <button class="addBtn" id="addToCartBtn">Lägg i varukorg</button>
+          </section>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <p>Copyright &copy; 2024 Anojan</p>
+    </footer>
+    <script src="../Public/assets/Scripts/toggleNav.js"></script>
+    <script src="../Public/assets/Scripts/moveToCart.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.1/firebase-firestore-compat.js"></script>
+
+    <script type="module">
+      import { addToCart } from "../Public/assets/Scripts/buttonScript.js";
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
+
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyCR8GsxK93vncpLTWqQhplTUG6fqdNZkjs",
+        authDomain: "furniturepage-b5a8d.firebaseapp.com",
+        databaseURL:
+          "https://furniturepage-b5a8d-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "furniturepage-b5a8d",
+        storageBucket: "furniturepage-b5a8d.appspot.com",
+        messagingSenderId: "83915572387",
+        appId: "1:83915572387:web:6dcb342140f022d8342b16",
+      };
+
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();
+
+      function getIdFromUrl() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get("id"); // Extracts the 'id' parameter from the URL
+      }
+
+      async function fetchProductData(id) {
+        const docRef = db.collection("furniture").doc(id);
+        const docSnap = await docRef.get();
+
+        if (docSnap.exists) {
+          return docSnap.data();
+        } else {
+          console.log("No such document!");
+        }
+      }
+
+      async function displayProductData() {
+        const id = getIdFromUrl();
+        const productData = await fetchProductData(id);
+
+        if (productData) {
+          document.getElementById("productImageSmall").srcset =
+            productData.image_small;
+          document.getElementById("productImageLarge").srcset =
+            productData.image_large;
+          document.getElementById("productImageOrginal").srcset =
+            productData.image_original;
+          document.getElementById("productImageDefault").src =
+            productData.image_large;
+          document.getElementById("productHeading").textContent =
+            productData.name;
+          document.getElementById("productDescriptionLong").textContent =
+            productData.description_long;
+          document.getElementById("productPrice").textContent =
+            productData.price + ":-";
+
+          function getProductPriceValue() {
+            const productPriceElement = document.getElementById("productPrice");
+            return (
+              productPriceElement.textContent || productPriceElement.innerText
+            );
+          }
+
+          // Add event listener to the "Add to Cart" button after setting the product data
+          document
+            .getElementById("addToCartBtn")
+            .addEventListener("click", () => {
+              const productPrice = getProductPriceValue();
+              addToCart(id, productData.name, productPrice);
+            });
+        }
+      }
+
+      // Call the function to display product data when the page loads
+      window.onload = displayProductData;
+    </script>
+  </body>
+</html>
