@@ -64,7 +64,8 @@ figure {
 }
 
 .addBtn:hover,
-.addBtn:active {
+.addBtn:active,
+.addBtn:focus {
   color: #616467;
   background-color: white;
   transform: translateY(1px);
