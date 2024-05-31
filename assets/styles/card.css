@@ -93,15 +93,6 @@
 
 /*********** Media queires *************/
 
-/* Tablets (portrait and landscape) */
-/* @media (min-width: 600px) {
-  main {
-    font-size: 18px;
-    padding: 10px;
-    background-color: #f0f0f0;
-  }
-} */
-
 /* Small laptops and tablets (landscape) */
 @media (min-width: 768px) {
   html {
@@ -117,6 +108,10 @@
 @media (min-width: 1024px) {
   html {
     font-size: 0.8rem;
+  }
+
+  .mainHeading {
+    font-size: 3rem;
   }
 
   .cards {
@@ -141,10 +136,3 @@
     font-size: 1.25rem;
   }
 }
-
-/* Large desktops */
-/* @media (min-width: 1440px) {
-  main {
-    background-color: blue;
-  }
-} */
