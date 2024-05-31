@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../Public/assets/styles/layout.css" />
-    <link rel="stylesheet" href="../Public/assets/styles/cart.css" />
+    <link rel="stylesheet" href="../assets/styles/layout.css" />
+    <link rel="stylesheet" href="../assets/styles/cart.css" />
     <title>YOUKEA</title>
     <script
       src="https://kit.fontawesome.com/4b91bc0ab7.js"
@@ -45,12 +45,9 @@
         <button class="checkOutBtn" id="checkoutBtn">Checkout</button>
       </div>
       <!-- Include scripts -->
-      <script
-        type="module"
-        src="../Public/assets/Scripts/sessionHandler.js"
-      ></script>
+      <script type="module" src="../assets/Scripts/sessionHandler.js"></script>
       <script type="module">
-        import { checkout } from "../Public/assets/Scripts/buttonScript.js";
+        import { checkout } from "../assets/Scripts/buttonScript.js";
         document
           .getElementById("checkoutBtn")
           .addEventListener("click", checkout);
@@ -59,8 +56,8 @@
     <footer>
       <p>Copyright &copy; 2024 Anojan</p>
     </footer>
-    <script src="../Public/assets/Scripts/displayCart.js"></script>
-    <script src="../Public/assets/Scripts/toggleNav.js"></script>
-    <script src="../Public/assets/Scripts/moveToCart.js"></script>
+    <script src="../assets/Scripts/displayCart.js"></script>
+    <script src="../assets/Scripts/toggleNav.js"></script>
+    <script src="../assets/Scripts/moveToCart.js"></script>
   </body>
 </html>
